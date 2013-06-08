@@ -1,0 +1,10 @@
+@mixin background-svg($width, $height, $svg, $png) {
+    $converted: svg_convert($width, $height, $svg, $png);
+    @if $converted == 1 {
+        width: $width;
+        height: $height;
+        background-size: $width, $height;
+        background-image: image-url($png);
+        background-image: inline-image($svg), none;
+    }
+}

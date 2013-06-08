@@ -1,0 +1,8 @@
+@import "compass/reset";
+@import "svg/svg";
+
+/* SVG Test */
+
+.map {
+    @include background-svg($width: 856,  $height: 433, $svg: "world-map.svg", $png: "world-map-856x433.png");
+}
