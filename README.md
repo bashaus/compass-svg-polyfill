@@ -27,7 +27,15 @@ Install librsvg
 
     brew install librsvg
 
+Your project must be using SASS (in either SASS or SCSS format) with Compass.
+
 ## Usage
+
+### Load times
+
+The SVG vector images are base64 encoded and included in the CSS output through a data URI. The fallback PNG images are linked through a URL. This means that on older browsers the load time is slightly slower (because you have to download two files) but on more modern browsers you have limited the number of HTTP requests.
+
+### Instructions
 
 The following instructions are for adding the SVG background image code to an existing project. 
 
