@@ -1,6 +1,6 @@
 # Compass SVG polyfill
 
-Version 1.0.3
+Version 1.0.4
 
 A compass plugin which serves SVG background images to new browsers and 
 provides a PNG fallback to old browsers.
@@ -34,14 +34,6 @@ Install `gem`
 
 ## Usage
 
-### Load times
-
-The SVG vector images are base64 encoded and included in the CSS output through 
-a data URI. The fallback PNG images are linked through a URL. This means that 
-on older browsers the load time is slightly slower (because you have to 
-download two files) but on more modern browsers you have limited the number 
-of HTTP requests.
-
 ### Instructions
 
 The following instructions are for adding the SVG background image code to an existing project. 
@@ -62,16 +54,35 @@ Edit your stylesheets and add a reference to the mixin:
     # Target a specific element
     .element {
         @include background-svg(
-            $width: 856px,
-            $height: 433px,
-            $svg: "world-map.svg",          /* must exist */
-            $png: "world-map-856x433.png"   /* will be generated for you */
+            $width: 856px,                  /* value must be in pixels */
+            $height: 433px,                 /* value must be in pixels */
+            $svg: "world-map.svg",          /* file must exist */
+            $png: "world-map-856x433.png",  /* file to be generated */
+            $inline: false                  /* optional: include svg in css */
         );
     }
 
 When using `compass watch` images are regenerated every time you update your 
 CSS files. If you make changes to your SVG images, resave a stylesheet 
 containing the image and the PNG images will be regenerated.
+
+### $inline
+
+* Optional
+* Default value: false
+* Available from: 1.0.4
+
+The SVG vector images can be base64 encoded and included in the CSS output 
+through a data URI. The fallback PNG images are linked through a URL. 
+
+This means that on older browsers the load time is slightly slower (because you 
+have to download two files) but on more modern browsers you have limited the 
+number of HTTP requests.
+
+When `true`: SVG images are encoded in the CSS file and PNG images download via 
+a separate HTTP request
+
+When `false`: both SVG and PNG images are downloaded via a separate HTTP request
 
 ## Licence
 

@@ -21,16 +21,16 @@ module Sass::Script::Functions
       end
 
       system(
-        "rsvg-convert",         # Process
-        "-w", width.to_s,       # Width
-        "-h", height.to_s,      # Height
-        "#{svgPath}",           # Input
-        "-o", "#{pngPath}"      # Output
+        "rsvg-convert",           # Process
+        "-w", width.value.to_s,   # Width
+        "-h", height.value.to_s,  # Height
+        "#{svgPath}",             # Input
+        "-o", "#{pngPath}"        # Output
       )
 
-      Sass::Script::Number.new 1
+      Sass::Script::Bool.new true
     rescue
-      Sass::Script::Number.new 0
+      Sass::Script::Bool.new false
     end
   end
   declare :svg_polyfill, :args => [:Number, :Number, :String, :String]

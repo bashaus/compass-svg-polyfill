@@ -1,11 +1,16 @@
-@mixin background-svg($width, $height, $svg, $png) {
+@mixin background-svg($width, $height, $svg, $png, $inline: false) {
     $converted: svg_polyfill($width, $height, $svg, $png);
-    @if $converted == 1 {
+    @if $converted {
         width: $width;
         height: $height;
         background-size: $width, $height;
         background-repeat: no-repeat;
         background-image: image-url($png);
-        background-image: inline-image($svg), none;
+
+        @if $inline {
+            background-image: inline-image($svg), none;
+        } @else {
+            background-image: image-url($svg), none;
+        }
     }
 }
