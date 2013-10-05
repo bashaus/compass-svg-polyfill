@@ -1,6 +1,6 @@
 # Compass SVG polyfill
 
-Version 1.0.1
+Version 1.0.2
 
 A compass plugin which serves SVG background images to new browsers and 
 provides a PNG fallback to old browsers.
