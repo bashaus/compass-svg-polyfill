@@ -20,15 +20,15 @@ This script automates the conversion of SVGs to PNGs and provides the CSS for yo
 
 ### Mac OS X (with homebrew)
 
-If you don't already have it, download and install XQuartz
+If you don't already have it, download and install `XQuartz`
 
     https://xquartz.macosforge.org/landing/
 
-Install librsvg
+Install `librsvg`
 
     brew install librsvg
 
-Install rubygem
+Install `gem`
 
     gem install compass-svg-polyfill
 
@@ -48,7 +48,6 @@ The following instructions are for adding the SVG background image code to an ex
 
 Add the following to the top of your `config.rb`:
 
-    # config.rb
     require "compass-svg-polyfill"
 
 Run compass
@@ -65,14 +64,14 @@ Edit your stylesheets and add a reference to the mixin:
         @include background-svg(
             $width: 856,
             $height: 433,
-            $svg: "world-map.svg",
-            $png: "world-map-856x433.png"
+            $svg: "world-map.svg",          /* must exist */
+            $png: "world-map-856x433.png"   /* will be generated for you */
         );
     }
 
-Images are generated every time you update your CSS files. If you make changes 
-to your SVGs resave a stylesheet containing the image and the PNGs will be 
-regenerated.
+When using `compass watch` images are regenerated every time you update your 
+CSS files. If you make changes to your SVG images, resave a stylesheet 
+containing the image and the PNG images will be regenerated.
 
 ## Licence
 
