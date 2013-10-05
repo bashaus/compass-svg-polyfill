@@ -1,8 +1,9 @@
-# SASS SVG background images
+# Compass SVG polyfill
 
-Version 1.0
+Version 1.0.1
 
-Serves SVGs as background images to new browsers and PNGs as background images to old browsers.
+A compass plugin which serves SVG background images to new browsers and 
+provides a PNG fallback to old browsers.
 
 ## Project Details
 
@@ -27,13 +28,19 @@ Install librsvg
 
     brew install librsvg
 
-Your project must be using SASS (in either SASS or SCSS format) with Compass.
+Install rubygem
+
+    gem install compass-svg-polyfill
 
 ## Usage
 
 ### Load times
 
-The SVG vector images are base64 encoded and included in the CSS output through a data URI. The fallback PNG images are linked through a URL. This means that on older browsers the load time is slightly slower (because you have to download two files) but on more modern browsers you have limited the number of HTTP requests.
+The SVG vector images are base64 encoded and included in the CSS output through 
+a data URI. The fallback PNG images are linked through a URL. This means that 
+on older browsers the load time is slightly slower (because you have to 
+download two files) but on more modern browsers you have limited the number 
+of HTTP requests.
 
 ### Instructions
 
@@ -42,7 +49,7 @@ The following instructions are for adding the SVG background image code to an ex
 Add the following to the top of your `config.rb`:
 
     # config.rb
-    require "sass/svg/svg.rb"
+    require "compass-svg-polyfill"
 
 Run compass
 
@@ -50,20 +57,22 @@ Run compass
 
 Edit your stylesheets and add a reference to the mixin:
 
-    @import "svg/svg";
+    # At the top of your file
+    @import "svg-polyfill/svg";
 
-    .map {
+    # Target a specific element
+    .element {
         @include background-svg(
-            $width: 856, 
-            $height: 433, 
-            $svg: "world-map.svg", 
+            $width: 856,
+            $height: 433,
+            $svg: "world-map.svg",
             $png: "world-map-856x433.png"
         );
     }
 
-Images are generated every time you update your CSS files. 
-
-If you make changes to your SVGs resave a stylesheet containing the image and the PNGs will be regenerated.
+Images are generated every time you update your CSS files. If you make changes 
+to your SVGs resave a stylesheet containing the image and the PNGs will be 
+regenerated.
 
 ## Licence
 
