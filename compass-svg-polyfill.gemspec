@@ -1,4 +1,4 @@
-require "compass-svg-polyfill/version"
+require File.join([File.dirname(__FILE__),'lib','compass-svg-polyfill','version.rb'])
 
 Gem::Specification.new do |s|
   s.name        = "compass-svg-polyfill"

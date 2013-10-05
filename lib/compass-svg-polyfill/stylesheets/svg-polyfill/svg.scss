@@ -1,5 +1,5 @@
 @mixin background-svg($width, $height, $svg, $png) {
-    $converted: svg_convert($width, $height, $svg, $png);
+    $converted: svg_polyfill($width, $height, $svg, $png);
     @if $converted == 1 {
         width: $width;
         height: $height;
