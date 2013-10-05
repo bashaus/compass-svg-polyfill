@@ -5,7 +5,7 @@ Version 1.0.1
 A compass plugin which serves SVG background images to new browsers and 
 provides a PNG fallback to old browsers.
 
-## Project Details
+## Project details
 
 ### Use case
 
