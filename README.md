@@ -20,7 +20,7 @@ This script automates the conversion of SVGs to PNGs and provides the CSS for yo
 
 ### Mac OS X (with homebrew)
 
-If you don't already have it, download and install `XQuartz`
+You may need to download and install `XQuartz`
 
     https://xquartz.macosforge.org/landing/
 
@@ -28,15 +28,24 @@ Install `librsvg`
 
     brew install librsvg
 
-Install `gem`
+### Linux
 
-    gem install compass-svg-polyfill
+Tested on `Ubuntu 12.04`
+
+Install `librsvg`
+
+    sudo apt-get update
+    sudo apt-get install librsvg2-bin
 
 ## Usage
 
 ### Instructions
 
 The following instructions are for adding the SVG background image code to an existing project. 
+
+Install `gem`
+
+    gem install compass-svg-polyfill
 
 Add the following to the top of your `config.rb`:
 
