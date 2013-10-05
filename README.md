@@ -62,8 +62,8 @@ Edit your stylesheets and add a reference to the mixin:
     # Target a specific element
     .element {
         @include background-svg(
-            $width: 856,
-            $height: 433,
+            $width: 856px,
+            $height: 433px,
             $svg: "world-map.svg",          /* must exist */
             $png: "world-map-856x433.png"   /* will be generated for you */
         );

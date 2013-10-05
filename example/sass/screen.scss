@@ -2,8 +2,8 @@
 
 .map {
     @include background-svg(
-        $width: 856,
-        $height: 433,
+        $width: 856px,
+        $height: 433px,
         $svg: "world-map.svg",
         $png: "world-map-856x433.png"
     );
