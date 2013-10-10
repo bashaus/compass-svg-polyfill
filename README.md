@@ -28,9 +28,7 @@ Install `librsvg`
 
     brew install librsvg
 
-### Linux
-
-Tested on `Ubuntu 12.04`
+### Linux Ubuntu 12.04
 
 Install `librsvg`
 
