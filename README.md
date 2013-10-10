@@ -40,13 +40,9 @@ Install `librsvg`
 
     brew install librsvg
 
-<<<<<<< HEAD
-### Linux Ubuntu 12.04
-=======
 ## Linux Installation
 
 Tested on `Ubuntu 12.04`
->>>>>>> develop
 
 ### librsvg
 
