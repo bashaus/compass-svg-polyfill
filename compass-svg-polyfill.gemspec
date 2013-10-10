@@ -8,6 +8,13 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
   s.homepage    = "http://github.com/bashaus/compass-svg-polyfill"
   s.summary     = "Converts SVG images to PNG for use in older browsers"
+  s.description = <<-EOF
+    SVG images are a great way to display vector images online; however some 
+    older web browsers do not support this format.
+
+    The compass-svg-polyfill gem generates fallback PNG images for these 
+    browsers.
+  EOF
 
   s.files         = Dir["lib/**/*", "README*"]
   s.require_paths = ["lib"]

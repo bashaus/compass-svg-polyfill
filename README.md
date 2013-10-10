@@ -1,6 +1,6 @@
 # Compass SVG polyfill
 
-Version 1.0.4
+Version 1.0.5
 
 A compass plugin which serves SVG background images to new browsers and 
 provides a PNG fallback to old browsers.
@@ -16,11 +16,23 @@ This script automates the conversion of SVGs to PNGs and provides the CSS for yo
 
 * broken-links.com -- [Using SVG in backgrounds with PNG fallback](http://www.broken-links.com/2010/06/14/using-svg-in-backgrounds-with-png-fallback/)
 
-## Installation
+## Requirements
 
-### Mac OS X (with homebrew)
+In order to use this gem you must have either `ImageMagick` or `librsvg`.
 
-You may need to download and install `XQuartz`
+ImageMagick is the recommended library.
+
+## Mac OS X Installation
+
+### ImageMagick
+
+Install `ImageMagick`
+
+    brew install imagemagick
+
+### librsvg
+
+Download and install `XQuartz`
 
     https://xquartz.macosforge.org/landing/
 
@@ -28,14 +40,16 @@ Install `librsvg`
 
     brew install librsvg
 
-### Linux
+## Linux Installation
 
 Tested on `Ubuntu 12.04`
 
+### librsvg
+
 Install `librsvg`
 
-    sudo apt-get update
-    sudo apt-get install librsvg2-bin
+    apt-get update
+    apt-get install librsvg2-bin
 
 ## Usage
 
@@ -51,14 +65,17 @@ Add the following to the top of your `config.rb`:
 
     require "compass-svg-polyfill"
 
-Run compass
+Run `compass`
 
     compass watch
 
-Edit your stylesheets and add a reference to the mixin:
+Add your stylesheet:
 
     # At the top of your file
-    @import "svg-polyfill/svg";
+    @import "compass-svg-polyfill/svg";
+
+    # Optionally, define the default image converter
+    $default-image-converter: imagemagick;
 
     # Target a specific element
     .element {
@@ -67,7 +84,8 @@ Edit your stylesheets and add a reference to the mixin:
             $height: 433px,                 /* value must be in pixels */
             $svg: "world-map.svg",          /* file must exist */
             $png: "world-map-856x433.png",  /* file to be generated */
-            $inline: false                  /* optional: include svg in css */
+            $inline: false,                 /* optional: include svg in css */
+            $image-converter: librsvg       /* optional: imagemagick or librsvg */
         );
     }
 
@@ -92,6 +110,29 @@ When `true`: SVG images are encoded in the CSS file and PNG images download via
 a separate HTTP request
 
 When `false`: both SVG and PNG images are downloaded via a separate HTTP request
+
+
+### $image-converter
+
+* Optional
+* Default value: imagemagick
+* Valid values: imagemagick, librsvg
+* Available from: 1.0.5
+
+You can select which image converter to use on a case-by-case basis using this 
+parameter.
+
+## Global variables
+
+### $default-image-converter
+
+* Global
+* Optional
+* Default value: imagemagick
+* Valid values: imagemagick, librsvg
+* Available from: 1.0.5
+
+Select which image converter to use globally.
 
 ## Licence
 

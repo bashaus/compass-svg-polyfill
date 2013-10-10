@@ -1,37 +1,52 @@
+require 'RMagick'
+
 module Sass::Script::Functions
-  def svg_polyfill(width, height, svgIn, pngOut)
+  def svg_polyfill(width, height, svgName, pngName, imageConverter)
     assert_type width, :Number
     assert_type height, :Number
-    assert_type svgIn, :String
-    assert_type pngOut, :String
+    assert_type svgName, :String
+    assert_type pngName, :String
+    assert_type imageConverter, :String
 
-    svgPath = File.join Compass.configuration.images_path, svgIn.value
-    pngPath = File.join Compass.configuration.images_path, pngOut.value
+    imageConverter = imageConverter.value.to_sym
 
-    begin
-      if !File.exists? svgPath
-        Compass::Logger.new.record :error, File.join(Compass.configuration.images_dir, svgIn.value)
-        raise "SVG does not exist"
-      end
+    logger = Compass::Logger.new
 
-      if File.exists? File.join(Compass.configuration.images_path, pngOut.value)
-        Compass::Logger.new.record :overwrite, File.join(Compass.configuration.images_dir, pngOut.value)
-      else
-        Compass::Logger.new.record :create, File.join(Compass.configuration.images_dir, pngOut.value)
-      end
+    svgName = svgName.value.to_s
+    svgPath = File.join Compass.configuration.images_path, svgName
 
+    pngName = pngName.value.to_s
+    pngPath = File.join Compass.configuration.images_path, pngName
+
+    if !File.exists? svgPath
+      raise Sass::SyntaxError, "svg does not exist #{svgName}"
+    end
+
+    if File.exists? pngPath
+      logger.record :overwrite, pngName
+    else
+      logger.record :create, pngName
+    end
+
+    case imageConverter
+    when :imagemagick
+      img = Magick::Image.read(svgPath).first
+      img.resize!(width.value.to_i, height.value.to_i)
+      img.write pngPath
+    when :librsvg
       system(
         "rsvg-convert",           # Process
-        "-w", width.value.to_s,   # Width
-        "-h", height.value.to_s,  # Height
+        "-w", "#{width.value}",   # Width
+        "-h", "#{height.value}",  # Height
         "#{svgPath}",             # Input
         "-o", "#{pngPath}"        # Output
       )
-
-      Sass::Script::Bool.new true
-    rescue
-      Sass::Script::Bool.new false
+    else
+      raise Sass::SyntaxError, "Unknown image converter #{imageConverter}"
     end
+
+    Sass::Script::Bool.new true
   end
+
   declare :svg_polyfill, :args => [:Number, :Number, :String, :String]
 end
