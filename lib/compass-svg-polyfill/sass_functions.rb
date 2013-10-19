@@ -1,4 +1,4 @@
-require 'RMagick'
+require 'RMagick' unless Object.const_defined?("Magick")
 
 module Sass::Script::Functions
   def svg_polyfill(width, height, svgName, pngName, imageConverter)

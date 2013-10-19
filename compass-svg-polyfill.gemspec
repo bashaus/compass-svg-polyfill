@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.files         = Dir["lib/**/*", "README*"]
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency("sass", [">= 3.1.0"])
-  s.add_runtime_dependency("compass", [">= 0.11.1"])
+  s.add_runtime_dependency "rmagick"
+  s.add_runtime_dependency "sass"
+  s.add_runtime_dependency "compass"
 end
