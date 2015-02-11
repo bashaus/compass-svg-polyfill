@@ -1,4 +1,4 @@
-require 'compass-svg-polyfill/sass_functions.rb'
+require 'compass-svg-polyfill/sass_functions'
 
 Compass::Frameworks.register(
 	'compass-svg-polyfill',

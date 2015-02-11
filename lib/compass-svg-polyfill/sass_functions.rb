@@ -1,3 +1,6 @@
+require 'tempfile'
+require 'fileutils'
+require 'digest'
 require 'RMagick' unless Object.const_defined?("Magick")
 
 module Sass::Script::Functions
@@ -8,42 +11,73 @@ module Sass::Script::Functions
     assert_type pngName, :String
     assert_type imageConverter, :String
 
+    # Normalise values
+    svgFilepath = File.join Compass.configuration.images_path, svgName.value.to_s
+    pngFilepath = File.join Compass.configuration.images_path, pngName.value.to_s
     imageConverter = imageConverter.value.to_sym
 
+    # Helper objects
     logger = Compass::Logger.new
+    cache_store = environment.options[:cache_store]
 
-    svgName = svgName.value.to_s
-    svgPath = File.join Compass.configuration.images_path, svgName
-
-    pngName = pngName.value.to_s
-    pngPath = File.join Compass.configuration.images_path, pngName
-
-    if !File.exists? svgPath
-      raise Sass::SyntaxError, "svg does not exist #{svgName}"
+    # Check if file exists
+    if !File.exists? svgFilepath
+      raise Sass::SyntaxError, "SVG file does not exist #{svgName.value.to_s}"
     end
 
-    if File.exists? pngPath
-      logger.record :overwrite, pngName
-    else
-      logger.record :create, pngName
-    end
+    # Create a temporary output file
+    tmpFile = Tempfile.new(['compass-svg-polyfill', '.png'])
+    tmpFile.close false
 
     case imageConverter
     when :imagemagick
-      img = Magick::Image.read(svgPath).first
+      img = Magick::Image.read(svgFilepath).first
       img.resize!(width.value.to_i, height.value.to_i)
-      img.write pngPath
+      img.write tmpFile.path
     when :librsvg
       system(
-        "rsvg-convert",           # Process
-        "-w", "#{width.value}",   # Width
-        "-h", "#{height.value}",  # Height
-        "#{svgPath}",             # Input
-        "-o", "#{pngPath}"        # Output
+        "rsvg-convert",      # Process
+        "-w", width.value,   # Width
+        "-h", height.value,  # Height
+        svgFilepath,         # Input
+        "-o", tmpFile.path   # Output
       )
     else
       raise Sass::SyntaxError, "Unknown image converter #{imageConverter}"
     end
+
+    # Setup cache values
+    cacheKey = cache_store.key(File.dirname(pngFilepath), File.basename(pngFilepath))
+    cacheSHA = Digest::SHA1.hexdigest(pngFilepath)
+    cacheVal = "#{width} #{height} #{Digest::SHA1.file(svgFilepath).hexdigest}"
+
+    action = nil
+
+    if File.exists? pngFilepath
+      action = :overwrite
+
+      if (cachedSHA = cache_store.retrieve(cacheKey, cacheSHA)) then
+        if cachedSHA.eql? cacheVal then
+          action = :unchanged
+        end
+      end
+    else
+      action = :create
+    end
+
+    logger.record action, pngName.value
+
+    case action
+    when :overwrite, :create
+      # Save the file
+      FileUtils.mv(tmpFile.path, pngFilepath)
+    end
+
+    # Save the cache key
+    cache_store.store(cacheKey, cacheSHA, cacheVal)
+
+    # Remove temp file
+    tmpFile.unlink
 
     Sass::Script::Bool.new true
   end
