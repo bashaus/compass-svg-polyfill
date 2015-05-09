@@ -40,14 +40,21 @@ Install `librsvg`
 
 ## Linux Installation
 
-Tested on `Ubuntu 12.04`
+Tested on `Ubuntu 12.04` and `Ubuntu 14.04`
+
+### ImageMagick
+
+Install `ImageMagick`
+
+    sudo apt-get install imagemagick libmagickwand-dev graphicsmagick-libmagick-dev-compat
+    sudo apt-get install libmagickcore-dev libmagickwand-dev
 
 ### librsvg
 
 Install `librsvg`
 
-    apt-get update
-    apt-get install librsvg2-bin
+    sudo apt-get update
+    sudo apt-get install librsvg2-bin
 
 ## Usage
 
