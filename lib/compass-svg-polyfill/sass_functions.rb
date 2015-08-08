@@ -1,7 +1,7 @@
 require 'tempfile'
 require 'fileutils'
 require 'digest'
-require 'RMagick' unless Object.const_defined?("Magick")
+require 'rmagick' unless Object.const_defined?("Magick")
 
 module Sass::Script::Functions
   def svg_polyfill(width, height, svgName, pngName, imageConverter)
